@@ -1,2 +1,9 @@
 .idea
 .env
+.venv
+
+
+/coverage/
+/build/
+/dist/
+/*.egg-info/
