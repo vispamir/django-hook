@@ -1,0 +1,139 @@
+[build-system]
+requires = ["setuptools>=61.0.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "django-hooks"
+version = "1.0.0"
+description = "A powerful and flexible hook system for Django applications"
+readme = "README.md"
+requires-python = ">=3.8"
+license = {text = "MIT"}
+authors = [
+    {name = "Amir Koulivand", email = "vispa.amir@gmail.com"},
+]
+maintainers = [
+    {name = "Amir Koulivand", email = "vispa.amir@gmail.com"},
+]
+keywords = [
+    "django",
+    "hooks",
+    "plugins",
+    "extensibility",
+    "events",
+    "signals",
+]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Environment :: Web Environment",
+    "Framework :: Django",
+    "Framework :: Django :: 3.2",
+    "Framework :: Django :: 4.0",
+    "Framework :: Django :: 4.1",
+    "Framework :: Django :: 4.2",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Topic :: Software Development :: Libraries :: Application Frameworks",
+]
+dependencies = [
+    "Django>=3.2",
+]
+
+[project.urls]
+Homepage = "https://github.com/your-username/django-hooks"
+Documentation = "https://github.com/your-username/django-hooks#readme"
+Repository = "https://github.com/your-username/django-hooks"
+Changelog = "https://github.com/your-username/django-hooks/releases"
+Issues = "https://github.com/your-username/django-hooks/issues"
+
+[tool.setuptools]
+packages = ["django_hooks"]
+
+[tool.setuptools.package-dir]
+django_hooks = "django_hooks"
+
+[tool.setuptools.package-data]
+django_hooks = ["py.typed"]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-django>=4.5.0",
+    "black>=22.0.0",
+    "flake8>=5.0.0",
+    "isort>=5.10.0",
+    "mypy>=0.990",
+    "tox>=4.0.0",
+    "coverage>=6.0.0",
+    "sphinx>=5.0.0",
+    "sphinx-rtd-theme>=1.0.0",
+]
+
+docs = [
+    "sphinx>=5.0.0",
+    "sphinx-rtd-theme>=1.0.0",
+    "sphinx-autodoc-typehints>=1.19.0",
+]
+
+[tool.black]
+line-length = 88
+target-version = ['py38']
+include = '\.pyi?$'
+exclude = '''
+/(
+    \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | _build
+  | buck-out
+  | build
+  | dist
+)/
+'''
+
+[tool.isort]
+profile = "black"
+multi_line_output = 3
+include_trailing_comma = true
+force_grid_wrap = 0
+use_parentheses = true
+line_length = 88
+known_first_party = ["django_hooks"]
+
+[tool.mypy]
+python_version = "3.8"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+check_untyped_defs = true
+disallow_untyped_decorators = false
+
+[[tool.mypy.overrides]]
+module = [
+    "django.*",
+]
+ignore_missing_imports = true
+
+[tool.pytest.ini_options]
+DJANGO_SETTINGS_MODULE = "tests.settings"
+python_files = ["tests.py", "test_*.py"]
+addopts = "--tb=short -v"
+testpaths = ["tests"]
+
+[tool.coverage.run]
+source = ["django_hooks"]
+omit = ["*/tests/*", "*/migrations/*"]
+
+[tool.coverage.report]
+show_missing = true
+fail_under = 90

@@ -1,0 +1,10 @@
+pytest>=7.0.0
+pytest-django>=4.5.0
+black>=22.0.0
+flake8>=5.0.0
+isort>=5.10.0
+mypy>=0.990
+tox>=4.0.0
+coverage>=6.0.0
+sphinx>=5.0.0
+sphinx-rtd-theme>=1.0.0
