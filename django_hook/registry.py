@@ -9,7 +9,9 @@ class HookRegistry:
     def __init__(self) -> None:
         self._hooks: Dict[str, List[Tuple[str, Callable[..., Any]]]] = {}
 
-    def register(self, hook_name: str, hook_func: Callable[..., Any], app_name: str) -> None:
+    def register(
+        self, hook_name: str, hook_func: Callable[..., Any], app_name: str
+    ) -> None:
         """
         Register a new hook
 

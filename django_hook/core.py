@@ -66,7 +66,10 @@ class HookSystem:
 
     @classmethod
     def register_hook(
-        cls, hook_name: str, hook_func: Callable[..., Any], app_name: Optional[str] = None
+        cls,
+        hook_name: str,
+        hook_func: Callable[..., Any],
+        app_name: Optional[str] = None,
     ) -> None:
         """
         Manually register a hook

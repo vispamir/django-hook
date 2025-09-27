@@ -2,7 +2,9 @@ from typing import Callable, Optional, Any
 from .registry import hook_registry
 
 
-def hook(hook_name: Optional[str] = None) -> Callable[[Callable[..., Any]], Callable[..., Any]]:
+def hook(
+    hook_name: Optional[str] = None,
+) -> Callable[[Callable[..., Any]], Callable[..., Any]]:
     """
     Decorator for registering functions as django_hook
 
@@ -26,7 +28,9 @@ def hook(hook_name: Optional[str] = None) -> Callable[[Callable[..., Any]], Call
     return decorator
 
 
-def register_hook(hook_name: str, app_name: Optional[str] = None) -> Callable[[Callable[..., Any]], Callable[..., Any]]:
+def register_hook(
+    hook_name: str, app_name: Optional[str] = None
+) -> Callable[[Callable[..., Any]], Callable[..., Any]]:
     """
     Helper function for manual hook registration
     """
