@@ -8,7 +8,7 @@ class HookSystem:
     """
 
     @classmethod
-    def invoke(cls, hook_name: str, *args: Any, **kwargs: Any) -> Dict[str, Any]:
+    def invoke(cls, hook_name: str, *args: Any, **kwargs: Any) -> List[Any]:
         """
         Invoke a hook and aggregate results from all implementers
 
@@ -20,18 +20,17 @@ class HookSystem:
         Returns:
             Dict of {app_name: result}
         """
-        results: Dict[str, Any] = {}
 
-        for app_name, hook_func in hook_registry.get_hooks(hook_name):
+        results: List[Any] = []
+
+        for _, hook_func in hook_registry.get_hooks(hook_name):
             try:
                 result = hook_func(*args, **kwargs)
-                results[app_name] = result
+                results.append(result)
             except Exception as e:
-                # Log error but continue executing other django_hook
                 import logging
-
                 logger = logging.getLogger(__name__)
-                logger.error(f"Error executing hook {hook_name} in app {app_name}: {e}")
+                logger.error(f"Error executing hook {hook_name}: {e}")
 
         return results
 
