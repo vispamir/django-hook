@@ -13,9 +13,9 @@ def pytest_configure():
                 }
             },
             INSTALLED_APPS=[
-                'django_hooks',
+                'django_hook',
             ],
-            SECRET_KEY='test-secret-key-for-django-hooks',
+            SECRET_KEY='test-secret-key-for-django-hook',
             USE_TZ=True,
             TIME_ZONE='UTC',
         )
@@ -25,7 +25,7 @@ def pytest_configure():
 @pytest.fixture(autouse=True)
 def reset_hook_registry():
     """Reset hook registry before each test"""
-    from django_hooks.registry import hook_registry
+    from django_hook.registry import hook_registry
     # Store original state
     original_hooks = hook_registry._hooks.copy()
     

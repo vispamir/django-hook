@@ -3,7 +3,7 @@ from typing import Callable, Dict, List, Tuple
 
 class HookRegistry:
     """
-    Registry for storing and managing django_hooks
+    Registry for storing and managing django_hook
     """
 
     def __init__(self):
@@ -39,15 +39,15 @@ class HookRegistry:
 
     def get_all_hooks(self) -> Dict[str, List[Tuple[str, Callable]]]:
         """
-        Get all registered django_hooks
+        Get all registered django_hook
 
         Returns:
-            Dictionary of all django_hooks
+            Dictionary of all django_hook
         """
         return self._hooks.copy()
 
     def clear(self):
-        """Clear all django_hooks"""
+        """Clear all django_hook"""
         self._hooks.clear()
 
 

@@ -5,7 +5,7 @@ from .registry import hook_registry
 
 def hook(hook_name: Optional[str] = None):
     """
-    Decorator for registering functions as django_hooks
+    Decorator for registering functions as django_hook
 
     Usage:
         @hook('my_custom_hook')

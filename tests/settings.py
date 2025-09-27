@@ -2,12 +2,12 @@ import os
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-SECRET_KEY = "test-secret-key-for-django-django_hooks"
+SECRET_KEY = "test-secret-key-for-django-django_hook"
 
 DEBUG = True
 
 INSTALLED_APPS = [
-    "django_hooks",
+    "django_hook",
 ]
 
 DATABASES = {

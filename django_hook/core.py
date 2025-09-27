@@ -28,7 +28,7 @@ class HookSystem:
                 result = hook_func(*args, **kwargs)
                 results.append(result)
             except Exception as e:
-                # Log error but continue executing other django_hooks
+                # Log error but continue executing other django_hook
                 import logging
                 logger = logging.getLogger(__name__)
                 logger.error(f"Error executing hook {hook_name} in app {app_name}: {e}")

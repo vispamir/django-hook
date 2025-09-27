@@ -1,4 +1,4 @@
-# Django Hooks Package
+# Django Hook Package
 
 A powerful and flexible hook system for Django that allows applications to implement and invoke hooks, with results aggregation.
 
@@ -12,13 +12,13 @@ A powerful and flexible hook system for Django that allows applications to imple
 
 ## Installation
 
-1. Add `django_hooks` to your Django project
+1. Add `django_hook` to your Django project
 2. Add to `INSTALLED_APPS` in your `settings.py`:
 
 ```python
 INSTALLED_APPS = [
     # ...
-    'django_hooks',
+    'django_hook',
     # your other apps
 ]
 ```
@@ -30,8 +30,8 @@ INSTALLED_APPS = [
 In your app, create a `hooks.py` file and define hooks using the `@hook` decorator:
 
 ```python
-# app1/django_hooks.py
-from django_hooks import hook
+# app1/django_hook.py
+from django_hook import hook
 
 @hook('user_created')
 def handle_user_created(user):
@@ -51,8 +51,8 @@ def log_user_creation(user):
 Invoke hooks from anywhere in your code:
 
 ```python
-from django_hooks import HookSystem
-from django_hooks.utils import aggregate_dict
+from django_hook import HookSystem
+from django_hook.utils import aggregate_dict
 
 def create_user_view(request):
     # Create user logic here

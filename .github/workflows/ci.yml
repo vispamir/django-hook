@@ -44,19 +44,19 @@ jobs:
 
     - name: Run black code formatting check
       run: |
-        black --check django_hooks tests
+        black --check django_hook tests
 
     - name: Run flake8 code quality check
       run: |
-        flake8 django_hooks tests
+        flake8 django_hook tests
 
     - name: Run mypy type checking
       run: |
-        mypy django_hooks
+        mypy django_hook
 
     - name: Run tests with pytest
       run: |
-        python -m pytest tests/ -v --cov=django_hooks --cov-report=xml --cov-report=html
+        python -m pytest tests/ -v --cov=django_hook --cov-report=xml --cov-report=html
 
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v3
@@ -88,7 +88,7 @@ jobs:
     - name: Run Bandit security linter
       run: |
         pip install bandit
-        bandit -r django_hooks -f html -o bandit_report.html
+        bandit -r django_hook -f html -o bandit_report.html
 
   build:
     name: Build Package
@@ -131,7 +131,7 @@ jobs:
     
     environment:
       name: pypi
-      url: https://pypi.org/p/django-hooks
+      url: https://pypi.org/p/django-hook
 
     steps:
     - name: Download build artifacts
