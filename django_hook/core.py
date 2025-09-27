@@ -29,6 +29,7 @@ class HookSystem:
                 results.append(result)
             except Exception as e:
                 import logging
+
                 logger = logging.getLogger(__name__)
                 logger.error(f"Error executing hook {hook_name}: {e}")
 
