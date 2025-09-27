@@ -56,7 +56,7 @@ class HookSystem:
             Aggregated result
         """
         results = cls.invoke(hook_name, *args, **kwargs)
-        return aggregator(list(results.values()))
+        return aggregator(results)
 
     @classmethod
     def get_hook_implementations(
