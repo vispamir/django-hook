@@ -15,6 +15,7 @@ from django_hook.utils import (
     aggregate_all,
 )
 
+
 class TestHookRegistry(TestCase):
     def setUp(self):
         # Create a fresh registry for each test

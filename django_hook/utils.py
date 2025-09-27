@@ -1,5 +1,6 @@
 from typing import Any, List
 
+
 def aggregate_sum(results: List[Any]) -> Any:
     """Sum aggregator"""
     return sum(results)
