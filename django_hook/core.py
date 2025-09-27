@@ -8,7 +8,7 @@ class HookSystem:
     """
 
     @classmethod
-    def invoke(cls, hook_name: str, *args, **kwargs) -> Dict[str, Any]:
+    def invoke(cls, hook_name: str, *args: Any, **kwargs: Any) -> Dict[str, Any]:
         """
         Invoke a hook and aggregate results from all implementers
 
@@ -37,7 +37,11 @@ class HookSystem:
 
     @classmethod
     def invoke_aggregate(
-        cls, hook_name: str, aggregator: Callable[[List[Any]], Any], *args, **kwargs
+        cls,
+        hook_name: str,
+        aggregator: Callable[[List[Any]], Any],
+        *args: Any,
+        **kwargs: Any,
     ) -> Any:
         """
         Invoke hook and aggregate results with custom aggregator function
@@ -55,7 +59,9 @@ class HookSystem:
         return aggregator(list(results.values()))
 
     @classmethod
-    def get_hook_implementations(cls, hook_name: str) -> List[Tuple[str, Callable]]:
+    def get_hook_implementations(
+        cls, hook_name: str
+    ) -> List[Tuple[str, Callable[..., Any]]]:
         """
         Get all implementers of a hook
 
