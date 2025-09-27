@@ -1,7 +1,6 @@
 import os
 import tempfile
 from django.test import TestCase
-from django.apps import apps
 from unittest.mock import patch, MagicMock
 
 # Import the hook system components
@@ -15,7 +14,6 @@ from django_hook.utils import (
     aggregate_first_non_none,
     aggregate_all,
 )
-
 
 class TestHookRegistry(TestCase):
     def setUp(self):

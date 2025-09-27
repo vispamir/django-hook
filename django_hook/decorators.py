@@ -1,5 +1,4 @@
 from typing import Callable, Optional
-from django.apps import apps
 from .registry import hook_registry
 
 

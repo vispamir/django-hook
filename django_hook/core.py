@@ -1,5 +1,4 @@
-from typing import Any, Callable, Dict, List, Optional, Type
-from django.apps import apps
+from typing import Any, Callable, List, Optional
 from .registry import hook_registry
 
 

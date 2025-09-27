@@ -1,6 +1,4 @@
-from typing import Any, Callable, List
-from .core import HookSystem
-
+from typing import Any, List
 
 def aggregate_sum(results: List[Any]) -> Any:
     """Sum aggregator"""
