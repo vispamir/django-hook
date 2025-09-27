@@ -19,7 +19,7 @@ def hook(hook_name: Optional[str] = None):
             hook_name = func.__name__
 
         # Extract app name from function module
-        app_name = func.__module__.split('.')[0]
+        app_name = func.__module__.split(".")[0]
 
         hook_registry.register(hook_name, func, app_name)
         return func
@@ -35,7 +35,7 @@ def register_hook(hook_name: str, app_name: Optional[str] = None):
     def decorator(func: Callable):
         nonlocal app_name
         if app_name is None:
-            app_name = func.__module__.split('.')[0]
+            app_name = func.__module__.split(".")[0]
 
         hook_registry.register(hook_name, func, app_name)
         return func

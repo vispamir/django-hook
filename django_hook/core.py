@@ -30,13 +30,16 @@ class HookSystem:
             except Exception as e:
                 # Log error but continue executing other django_hook
                 import logging
+
                 logger = logging.getLogger(__name__)
                 logger.error(f"Error executing hook {hook_name} in app {app_name}: {e}")
 
         return results
 
     @classmethod
-    def invoke_aggregate(cls, hook_name: str, aggregator: Callable, *args, **kwargs) -> Any:
+    def invoke_aggregate(
+        cls, hook_name: str, aggregator: Callable, *args, **kwargs
+    ) -> Any:
         """
         Invoke hook and aggregate results with custom aggregator function
 
@@ -63,7 +66,9 @@ class HookSystem:
         return hook_registry.get_hooks(hook_name)
 
     @classmethod
-    def register_hook(cls, hook_name: str, hook_func: Callable, app_name: Optional[str] = None):
+    def register_hook(
+        cls, hook_name: str, hook_func: Callable, app_name: Optional[str] = None
+    ):
         """
         Manually register a hook
 
@@ -74,6 +79,6 @@ class HookSystem:
         """
         if app_name is None:
             # Use module name if app name not provided
-            app_name = hook_func.__module__.split('.')[0]
+            app_name = hook_func.__module__.split(".")[0]
 
         hook_registry.register(hook_name, hook_func, app_name)
