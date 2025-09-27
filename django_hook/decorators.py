@@ -1,8 +1,8 @@
-from typing import Callable, Optional
+from typing import Callable, Optional, Any
 from .registry import hook_registry
 
 
-def hook(hook_name: Optional[str] = None):
+def hook(hook_name: Optional[str] = None) -> Callable[[Callable[..., Any]], Callable[..., Any]]:
     """
     Decorator for registering functions as django_hook
 
@@ -12,7 +12,7 @@ def hook(hook_name: Optional[str] = None):
             return something
     """
 
-    def decorator(func: Callable):
+    def decorator(func: Callable[..., Any]) -> Callable[..., Any]:
         nonlocal hook_name
         if hook_name is None:
             hook_name = func.__name__
@@ -26,12 +26,12 @@ def hook(hook_name: Optional[str] = None):
     return decorator
 
 
-def register_hook(hook_name: str, app_name: Optional[str] = None):
+def register_hook(hook_name: str, app_name: Optional[str] = None) -> Callable[[Callable[..., Any]], Callable[..., Any]]:
     """
     Helper function for manual hook registration
     """
 
-    def decorator(func: Callable):
+    def decorator(func: Callable[..., Any]) -> Callable[..., Any]:
         nonlocal app_name
         if app_name is None:
             app_name = func.__module__.split(".")[0]

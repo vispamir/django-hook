@@ -1,4 +1,4 @@
-from typing import Any, Callable, List, Optional
+from typing import Any, Callable, Dict, List, Optional, Tuple
 from .registry import hook_registry
 
 
@@ -8,7 +8,7 @@ class HookSystem:
     """
 
     @classmethod
-    def invoke(cls, hook_name: str, *args, **kwargs) -> List[Any]:
+    def invoke(cls, hook_name: str, *args, **kwargs) -> Dict[str, Any]:
         """
         Invoke a hook and aggregate results from all implementers
 
@@ -18,14 +18,14 @@ class HookSystem:
             **kwargs: Keyword arguments
 
         Returns:
-            List of results from all implementers
+            Dict of {app_name: result}
         """
-        results = []
+        results: Dict[str, Any] = {}
 
         for app_name, hook_func in hook_registry.get_hooks(hook_name):
             try:
                 result = hook_func(*args, **kwargs)
-                results.append(result)
+                results[app_name] = result
             except Exception as e:
                 # Log error but continue executing other django_hook
                 import logging
@@ -37,7 +37,7 @@ class HookSystem:
 
     @classmethod
     def invoke_aggregate(
-        cls, hook_name: str, aggregator: Callable, *args, **kwargs
+        cls, hook_name: str, aggregator: Callable[[List[Any]], Any], *args, **kwargs
     ) -> Any:
         """
         Invoke hook and aggregate results with custom aggregator function
@@ -52,10 +52,10 @@ class HookSystem:
             Aggregated result
         """
         results = cls.invoke(hook_name, *args, **kwargs)
-        return aggregator(results)
+        return aggregator(list(results.values()))
 
     @classmethod
-    def get_hook_implementations(cls, hook_name: str) -> List[tuple]:
+    def get_hook_implementations(cls, hook_name: str) -> List[Tuple[str, Callable]]:
         """
         Get all implementers of a hook
 
@@ -66,8 +66,8 @@ class HookSystem:
 
     @classmethod
     def register_hook(
-        cls, hook_name: str, hook_func: Callable, app_name: Optional[str] = None
-    ):
+        cls, hook_name: str, hook_func: Callable[..., Any], app_name: Optional[str] = None
+    ) -> None:
         """
         Manually register a hook
 

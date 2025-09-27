@@ -1,4 +1,4 @@
-from typing import Callable, Dict, List, Tuple
+from typing import Callable, Dict, List, Tuple, Any
 
 
 class HookRegistry:
@@ -6,10 +6,10 @@ class HookRegistry:
     Registry for storing and managing django_hook
     """
 
-    def __init__(self):
-        self._hooks: Dict[str, List[Tuple[str, Callable]]] = {}
+    def __init__(self) -> None:
+        self._hooks: Dict[str, List[Tuple[str, Callable[..., Any]]]] = {}
 
-    def register(self, hook_name: str, hook_func: Callable, app_name: str):
+    def register(self, hook_name: str, hook_func: Callable[..., Any], app_name: str) -> None:
         """
         Register a new hook
 
@@ -28,7 +28,7 @@ class HookRegistry:
 
         self._hooks[hook_name].append((app_name, hook_func))
 
-    def get_hooks(self, hook_name: str) -> List[Tuple[str, Callable]]:
+    def get_hooks(self, hook_name: str) -> List[Tuple[str, Callable[..., Any]]]:
         """
         Get all implementers of a hook
 
@@ -37,7 +37,7 @@ class HookRegistry:
         """
         return self._hooks.get(hook_name, [])
 
-    def get_all_hooks(self) -> Dict[str, List[Tuple[str, Callable]]]:
+    def get_all_hooks(self) -> Dict[str, List[Tuple[str, Callable[..., Any]]]]:
         """
         Get all registered django_hook
 
@@ -46,7 +46,7 @@ class HookRegistry:
         """
         return self._hooks.copy()
 
-    def clear(self):
+    def clear(self) -> None:
         """Clear all django_hook"""
         self._hooks.clear()
 
