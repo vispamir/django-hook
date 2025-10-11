@@ -107,6 +107,144 @@ The package includes several built-in aggregators:
 
 The hook system is designed to be fault-tolerant. If one hook implementation fails, the error is logged but other hooks continue to execute.
 
+## OOP sample
+
+Implement multiple payment methods
+
+### Implement Stripe payment method
+
+```python
+# payment_app/stripe/hooks.py
+from django_hooks import hook
+
+@hook('payment_method')
+class StripePaymentMethod:
+    """Stripe payment gateway implementation"""
+
+    def __init__(self):
+        self.name = "stripe"
+        self.supported_currencies = ['USD', 'EUR', 'GBP']
+
+    def start(self, amount, currency, **kwargs):
+        """Start payment process"""
+        print(f"Starting Stripe payment: {amount} {currency}")
+        return {
+            'status': 'started',
+            'gateway': 'stripe',
+            'payment_id': f"stripe_{kwargs.get('order_id', 'unknown')}",
+            'next_action': 'redirect_to_stripe'
+        }
+
+    def verify(self, payment_id, **kwargs):
+        """Verify payment"""
+        print(f"Verifying Stripe payment: {payment_id}")
+        return {
+            'status': 'verified',
+            'gateway': 'stripe',
+            'payment_id': payment_id,
+            'verified_at': '2024-01-01 10:00:00'
+        }
+
+    def refund(self, payment_id, amount, **kwargs):
+        """Process refund"""
+        print(f"Processing Stripe refund: {payment_id} - {amount}")
+        return {
+            'status': 'refunded',
+            'gateway': 'stripe',
+            'refund_id': f"refund_{payment_id}"
+        }
+
+    def get_supported_methods(self):
+        """Get supported payment methods"""
+        return ['card', 'apple_pay', 'google_pay']
+```
+
+### Implement PayPal payment method
+
+```python
+# payment_app/paypal/hooks.py
+from django_hooks import hook
+
+@hook('payment_method')
+class PayPalPaymentMethod:
+    """PayPal payment gateway implementation"""
+
+    def __init__(self):
+        self.name = "paypal"
+        self.supported_currencies = ['USD', 'EUR', 'AUD', 'CAD']
+
+    def start(self, amount, currency, **kwargs):
+        """Start payment process"""
+        print(f"Starting PayPal payment: {amount} {currency}")
+        return {
+            'status': 'started',
+            'gateway': 'paypal',
+            'payment_id': f"paypal_{kwargs.get('order_id', 'unknown')}",
+            'next_action': 'redirect_to_paypal'
+        }
+
+    def verify(self, payment_id, **kwargs):
+        """Verify payment"""
+        print(f"Verifying PayPal payment: {payment_id}")
+        return {
+            'status': 'verified',
+            'gateway': 'paypal',
+            'payment_id': payment_id,
+            'verified_at': '2024-01-01 10:00:00'
+        }
+
+    def cancel(self, payment_id, **kwargs):
+        """Cancel pending payment"""
+        print(f"Canceling PayPal payment: {payment_id}")
+        return {
+            'status': 'cancelled',
+            'gateway': 'paypal',
+            'payment_id': payment_id
+        }
+```
+
+### Invoke payment methods
+
+```python
+# payment_app/services/payment_service.py
+from django_hooks import HookSystem
+from django_hooks.utils import aggregate_dict, aggregate_list
+
+class PaymentService:
+
+    @staticmethod
+    def get_available_payment_methods(currency='USD'):
+        """Get all available payment methods for a currency"""
+        methods = []
+
+        for app_name, payment_class in HookSystem.invoke('payment_method'):
+            instance = payment_class()
+            if currency in instance.supported_currencies:
+                methods.append({
+                    'name': instance.name,
+                    'gateway': instance.name,
+                    'supported_currencies': instance.supported_currencies,
+                    'supported_methods': getattr(instance, 'get_supported_methods', lambda: [])()
+                })
+
+        return methods
+
+    @staticmethod
+    def start_payment(method_name, amount, currency, **kwargs):
+        try:
+            method = self.get_available_payment_methods()[method_name]
+        except KeyError:
+            raise ValueError(f"Method {method_name} not found")
+
+        """Start payment with specific gateway"""
+        response = method.start(amount, currency)
+
+        if response:
+            return response
+        else:
+            raise ValueError(f"Payment gateway '{method_name}' not found or not supported")
+```
+
 ## Contributing
 
 1. Fork the repository
